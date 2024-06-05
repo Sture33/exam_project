@@ -1,0 +1,28 @@
+{% extends '../base.html' %}
+{% block title %}
+    Anime Media Detail
+{% endblock %}
+{% block content %}
+	<p>{{ object }}</p>
+
+    {% for comment in comments %}
+    	<p>{{ comment }}</p>
+    {% endfor %}
+
+
+    <form method="post" >
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">submit</button>
+    </form>
+    <form action="{% url 'like_anime' anm_slug=object.slug %}" method="post">
+        {% csrf_token %}
+        <button type="submit">
+            {% if request.user in object.likes.all %}
+            Убрать лайк
+            {% else %}
+            Поставить лайк
+            {% endif %}
+        </button>
+    </form>
+{% endblock %}
